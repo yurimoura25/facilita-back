@@ -1,0 +1,36 @@
+create database facilita;
+
+
+create table usuario(
+	id serial primary key,
+    email varchar(50) not null,
+    senha varchar(16) not null,
+    cpf varchar(11) not null,
+    nome varchar(50) not null,
+    ativo boolean not null
+);
+
+create table instituicao(
+	id serial primary key,
+    email varchar(50) not null,
+    senha varchar(16) not null,
+    cnpj varchar(11) not null,
+    razao_social varchar(20) not null,
+    validado boolean not null,
+    ativo boolean not null
+);
+
+create table endereco(
+	id serial primary key,
+    cep varchar(8),
+    estado varchar(20),
+    cidade varchar(50),
+    bairro varchar(50),
+    rua varchar(50),
+    numero varchar(5),
+    complemento varchar(50),
+	latitude char(10),
+	longitude char(10),
+	id_instituicao int ,
+	constraint fk_id_instituicao foreign key(id_instituicao) references instituicao(id)
+)
