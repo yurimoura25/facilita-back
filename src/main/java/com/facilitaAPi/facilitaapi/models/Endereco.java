@@ -1,6 +1,8 @@
 package com.facilitaAPi.facilitaapi.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -27,6 +29,8 @@ public class Endereco {
     private String latitude;
     @Column(name = "longitude")
     private String longitude;
+
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "id_instituicao")
     private Instituicao instituicao;

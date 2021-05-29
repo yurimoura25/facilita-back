@@ -2,6 +2,7 @@ package com.facilitaAPi.facilitaapi.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -12,8 +13,11 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "email")
+    @NotNull
     private String email;
+
     @Column(name = "senha")
+    @NotNull
     private String senha;
     @Column(name = "cpf")
     private String cpf;
@@ -71,4 +75,7 @@ public class Usuario {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
+
+
+
 }
