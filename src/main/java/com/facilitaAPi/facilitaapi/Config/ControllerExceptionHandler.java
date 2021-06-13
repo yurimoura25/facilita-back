@@ -1,6 +1,5 @@
 package com.facilitaAPi.facilitaapi.Config;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -37,7 +36,7 @@ public class ControllerExceptionHandler {
     }
 
 
-        @ExceptionHandler(value = {CustomValidationExpection.class})
+    @ExceptionHandler(value = {CustomValidationExpection.class})
     public ResponseEntity<?> customValidationException(CustomValidationExpection exception) {
         return new ResponseEntity<>(new ValidationErrorMessage(exception.getEntity(), exception.getMessage()), HttpStatus.BAD_REQUEST);
     }

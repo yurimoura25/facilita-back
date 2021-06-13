@@ -18,8 +18,7 @@ import java.util.Optional;
 
 @RestController()
 @RequestMapping("/instituicao")
-@CrossOrigin(origins = "http://localhost/3000")
-public class InstituicaoController{
+public class InstituicaoController {
 
     @Autowired
     private InstituicaoRepository instituicaoRepository;
@@ -56,15 +55,15 @@ public class InstituicaoController{
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InstituicaoDTO> getInstituicaoPorId(@PathVariable Integer id){
+    public ResponseEntity<InstituicaoDTO> getInstituicaoPorId(@PathVariable Integer id) {
         Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById(id);
         List<Endereco> listEndereco = enderecoRepository.findByInstituicaoId(id);
-        if(instituicaoOptional.isPresent()){
+        if (instituicaoOptional.isPresent()) {
             InstituicaoDTO instituicaoDTO = new InstituicaoDTO(instituicaoOptional.get());
             List<EnderecoDTO> listEnderecoDTO = new ArrayList<>();
 
-            if(!listEndereco.isEmpty()){
-                listEndereco.forEach(endereco->{
+            if (!listEndereco.isEmpty()) {
+                listEndereco.forEach(endereco -> {
                     listEnderecoDTO.add(new EnderecoDTO(endereco));
                 });
             }
@@ -79,11 +78,11 @@ public class InstituicaoController{
 
     @PostMapping
     @Transactional
-    public ResponseEntity<InstituicaoForm> cadastrarInstituicao(@RequestBody InstituicaoForm instituicaoForm){
-        if(instituicaoForm!= null){
+    public ResponseEntity<InstituicaoForm> cadastrarInstituicao(@RequestBody InstituicaoForm instituicaoForm) {
+        if (instituicaoForm != null) {
             instituicaoRepository.save(instituicaoForm.getInstituicao());
-            if(instituicaoForm.getEnderecos()!=null){
-                instituicaoForm.getEnderecos().forEach(endereco->{
+            if (instituicaoForm.getEnderecos() != null) {
+                instituicaoForm.getEnderecos().forEach(endereco -> {
                     endereco.setInstituicao(instituicaoForm.getInstituicao());
                     enderecoRepository.save(endereco);
                 });
@@ -110,13 +109,31 @@ public class InstituicaoController{
         return ResponseEntity.notFound().build();
     }
 
+    @PostMapping("/endereco/{id}")
+    @Transactional
+    public ResponseEntity<?> cadastrarEndereco(@RequestBody Endereco endereco, @PathVariable Integer id) {
+        if (id != null) {
+            Optional<Instituicao> instituicao = instituicaoRepository.findById(id);
+            if (instituicao.isPresent()) {
+                if (endereco != null) {
+                    endereco.setInstituicao(instituicao.get());
+                    enderecoRepository.save(endereco);
+                }
+
+                return ResponseEntity.ok().build();
+            }
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> removerInstituicaoPorId(@PathVariable Integer id){
+    public ResponseEntity<?> removerInstituicaoPorId(@PathVariable Integer id) {
         Optional<Instituicao> instituicaoOptional = instituicaoRepository.findById(id);
         List<Endereco> listEndereco = enderecoRepository.findByInstituicaoId(id);
 
-        if(instituicaoOptional.isPresent()){
+        if (instituicaoOptional.isPresent()) {
             removerListaEndereco(listEndereco);
             instituicaoRepository.deleteById(id);
 
@@ -127,10 +144,12 @@ public class InstituicaoController{
     }
 
 
-    public void removerListaEndereco(List<Endereco> listEndereco){
-        try{
-            listEndereco.forEach(endereco->{enderecoRepository.delete(endereco);});
-        }catch(Exception e){
+    public void removerListaEndereco(List<Endereco> listEndereco) {
+        try {
+            listEndereco.forEach(endereco -> {
+                enderecoRepository.delete(endereco);
+            });
+        } catch (Exception e) {
             System.out.println("ERROR: " + e);
         }
     }

@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
-@CrossOrigin(origins = "http://localhost:3000")
 public class UsuarioController {
 
     @Autowired
@@ -32,7 +31,7 @@ public class UsuarioController {
                 listUsuarioDTO.add(new UsuarioDTO(usuario));
             });
         } else {
-            throw new CustomValidationExpection(listUsuario.getClass().toString(), "Não há nenhum usuário cadastrado no sistema");
+            throw new CustomValidationExpection("Usuario", "Não há nenhum usuário cadastrado no sistema");
         }
         return ResponseEntity.ok(listUsuarioDTO);
     }
@@ -61,7 +60,7 @@ public class UsuarioController {
             usuarioRepository.save(usuario);
             return ResponseEntity.ok(usuario);
         } else {
-            throw new CustomValidationExpection(usuario.toString(), "Objeto inválido");
+            throw new CustomValidationExpection("Usuario", "Objeto inválido");
         }
     }
 
@@ -73,7 +72,7 @@ public class UsuarioController {
             usuarioRepository.deleteById(id);
             return ResponseEntity.ok().build();
         } else {
-            throw new CustomValidationExpection(id.toString(), "Não foi encontrado o ID");
+            throw new CustomValidationExpection("id", "Não foi encontrado o ID");
         }
     }
 }

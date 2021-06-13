@@ -14,7 +14,7 @@ create table instituicao(
 	id serial primary key,
     email varchar(50) not null,
     senha varchar(16) not null,
-    cnpj varchar(11) not null,
+    cnpj varchar(14) not null,
     razao_social varchar(20) not null,
     validado boolean not null,
     ativo boolean not null
