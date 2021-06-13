@@ -2,6 +2,8 @@ package com.facilitaAPi.facilitaapi.Controller;
 
 import com.facilitaAPi.facilitaapi.Config.CustomValidationExpection;
 import com.facilitaAPi.facilitaapi.Controller.dto.UsuarioDTO;
+import com.facilitaAPi.facilitaapi.models.Endereco;
+import com.facilitaAPi.facilitaapi.models.Instituicao;
 import com.facilitaAPi.facilitaapi.models.Usuario;
 import com.facilitaAPi.facilitaapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
