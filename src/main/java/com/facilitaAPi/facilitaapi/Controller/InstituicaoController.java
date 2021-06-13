@@ -109,24 +109,6 @@ public class InstituicaoController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/endereco/{id}")
-    @Transactional
-    public ResponseEntity<?> cadastrarEndereco(@RequestBody Endereco endereco, @PathVariable Integer id) {
-        if (id != null) {
-            Optional<Instituicao> instituicao = instituicaoRepository.findById(id);
-            if (instituicao.isPresent()) {
-                if (endereco != null) {
-                    endereco.setInstituicao(instituicao.get());
-                    enderecoRepository.save(endereco);
-                }
-
-                return ResponseEntity.ok().build();
-            }
-        }
-
-        return ResponseEntity.notFound().build();
-    }
-
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> removerInstituicaoPorId(@PathVariable Integer id) {
