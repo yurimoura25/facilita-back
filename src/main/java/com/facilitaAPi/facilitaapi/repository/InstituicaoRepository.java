@@ -8,6 +8,8 @@ public interface InstituicaoRepository extends JpaRepository<Instituicao, Intege
 
     public Instituicao findByCnpj(String cnpj);
 
+    public Instituicao findByEmail(String email);
+
     @Query("select i from Instituicao i where i.cnpj = ?1")
     public Instituicao findByCpfQuery(String cpf);
 }

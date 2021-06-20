@@ -1,5 +1,6 @@
 package com.facilitaAPi.facilitaapi.Controller;
 
+import com.facilitaAPi.facilitaapi.Config.CustomValidationExpection;
 import com.facilitaAPi.facilitaapi.Controller.dto.EnderecoDTO;
 import com.facilitaAPi.facilitaapi.Controller.dto.InstituicaoDTO;
 import com.facilitaAPi.facilitaapi.Controller.form.InstituicaoForm;
@@ -79,14 +80,21 @@ public class InstituicaoController {
     @PostMapping
     @Transactional
     public ResponseEntity<InstituicaoForm> cadastrarInstituicao(@RequestBody InstituicaoForm instituicaoForm) {
-        if (instituicaoForm != null) {
+        Instituicao instituicao = instituicaoRepository.findByEmail(instituicaoForm.getInstituicao().getEmail());
+        if (instituicaoForm != null && instituicao == null) {
             instituicaoRepository.save(instituicaoForm.getInstituicao());
+
             if (instituicaoForm.getEnderecos() != null) {
                 instituicaoForm.getEnderecos().forEach(endereco -> {
                     endereco.setInstituicao(instituicaoForm.getInstituicao());
                     enderecoRepository.save(endereco);
                 });
             }
+        } else {
+            if(instituicao != null) {
+                throw new CustomValidationExpection("email", "Email já cadastrado!");
+            }
+            throw new CustomValidationExpection("instituicao", "Instituicao não foi definida");
         }
         return ResponseEntity.ok(instituicaoForm);
     }

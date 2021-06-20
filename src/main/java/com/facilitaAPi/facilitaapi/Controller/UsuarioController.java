@@ -46,13 +46,6 @@ public class UsuarioController {
         }
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> usuarioValido(@RequestBody Usuario usuario) {
-//        if(usuario.getEmail() != null && usuario.getSenha() != null) {
-//
-//        }
-//        return ResponseEntity.badRequest().build();
-//    }
     @PostMapping
     @Transactional
     public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario){
