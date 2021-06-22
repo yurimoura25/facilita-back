@@ -124,15 +124,35 @@ public class InstituicaoController {
         List<Endereco> listEndereco = enderecoRepository.findByInstituicaoId(id);
 
         if (instituicaoOptional.isPresent()) {
-            removerListaEndereco(listEndereco);
             instituicaoRepository.deleteById(id);
-
             return ResponseEntity.ok().build();
         }
 
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/endereco/{id}")
+    @Transactional
+    public ResponseEntity<?> editarEnderecos(@RequestBody List<Endereco> listEnderecoNovo, @PathVariable Integer id){
+        List<Endereco> listEnderecoAntigo = enderecoRepository.findByInstituicaoId(id);
+
+        for(Endereco enderecoAntigo : listEnderecoAntigo){
+            for(Endereco novoEndereco : listEnderecoNovo){
+                if(novoEndereco.getId().equals(enderecoAntigo.getId())){
+                    break;
+                }
+
+                removerEndereco(enderecoAntigo);
+            }
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    public void removerEndereco(Endereco endereco){
+        enderecoRepository.delete(endereco);
+    }
 
     public void removerListaEndereco(List<Endereco> listEndereco) {
         try {

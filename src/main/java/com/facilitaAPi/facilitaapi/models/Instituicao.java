@@ -23,7 +23,7 @@ public class Instituicao {
     private boolean validado;
     @Column(name = "ativo")
     private boolean ativo;
-    @OneToMany(mappedBy = "instituicao")
+    @OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL)
     List<Endereco> enderecos;
 
     public Integer getId() {
